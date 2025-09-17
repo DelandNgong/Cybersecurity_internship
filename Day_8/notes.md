@@ -4,12 +4,12 @@ Took Google’s phishing quiz and scored 100% – correctly identified all phish
 
 Took Dropbox’s phishing quiz and scored 80% – got 20% wrong by mistaking some real emails for phishing (false positive).
 
-2. Personal Email Check
+2. Personal Email Check:
 Went though my eamils to check for Pfishing emails, found a suspicious email from wordpress@ramworkstx.com offering a $500 bonus and a password setup link.
 
 This is likely phishing: the sender address isn’t official WordPress, and the offer seems fake.
 
-3. Have I Been Pwned Check
+3. Have I Been Pwned Check:
 Checked my email on https://haveibeenpwned.com/
 
 My email was in a 2024 data breach from a betting site that affected 96 million users.
