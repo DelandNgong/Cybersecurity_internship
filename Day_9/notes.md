@@ -1,4 +1,4 @@
-Day 9: Secure Software & Patch Management
+Day 9: Secure Software and Patch Management
 
 1. Understanding Software Patches
 
@@ -36,7 +36,3 @@ Key Characteristics
 
 3. Key Takeaway
 Patch management is a critical, ongoing race between defenders closing vulnerabilities and attackers trying to exploit them. Timely patching is one of the most effective security controls, while zero-day threats represent the most challenging attacks to defend against.
-
-## Resources
-- **Understanding Software Patching:** [Google Scholar Article](https://spawn-queue.acm.org/doi/abs/10.1145/1053331.1053343)
-- **Zero-Day Exploits:** [Preprints.org Article](https://www.preprints.org/frontend/manuscript/b924485f7029361172a84ff18e1af1dd/download_pub)
