@@ -1,0 +1,2 @@
+Understanding Software Patching: (https://spawn-queue.acm.org/doi/abs/10.1145/1053331.1053343)
+Zero-Day Exploits: (https://www.preprints.org/frontend/manuscript/b924485f7029361172a84ff18e1af1dd/download_pub)
