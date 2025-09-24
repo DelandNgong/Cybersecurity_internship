@@ -1,40 +1,110 @@
-Day 13: Wireshark DNS Traffic Analysis
-What I Studied Today
-The main focus was on practical DNS analysis using Wireshark. I learned how to capture and interpret the DNS queries my computer makes in real-time. I also reviewed the definitions and roles of other key networking protocols for context.
+Day 13: Introduction to Wireshark & Network Traffic Analysis
+1. What is Wireshark?
+Wireshark is a network protocol analyzer (a "packet sniffer"). It captures data packets traveling through a network interface, allowing you to inspect their contents in detail. It is an essential tool for:
 
-Wireshark Navigation - Key Points
-Display Filter is Essential: The most important tool for this task. I used the filter dns to isolate only DNS traffic from the capture.
+Network Troubleshooting: Identifying why connections are failing.
 
-Reading the Panels:
+Security Analysis: Detecting malicious activity on a network.
 
-Packet List (Top): Gives a quick overview. The Info column summarizes the DNS conversation.
+Learning: Understanding how network protocols actually work.
 
-Packet Details (Bottom Left): Allows me to drill down into the layers of a packet - Frame, Ethernet, IP, UDP, and finally the DNS section with the query/response details.
+2. Wireshark Interface Breakdown
+The interface is divided into three main panes that show the encapsulation of data according to the OSI model.
 
-Byte View (Bottom Right): Shows the raw data; less frequently used for initial analysis.
+Packet List Pane (Top)
+A summary of all captured packets. Key columns:
 
-Protocols Involved & Their Definitions
-Protocols in my DNS Capture:
+No.: The packet number in the capture.
 
-DNS (Domain Name System): The core protocol being analyzed. It translates domain names (like web.whatsapp.com) into IP addresses.
+Time: When the packet was captured relative to the start.
 
-UDP (User Datagram Protocol): DNS primarily uses UDP port 53 for its fast, connectionless queries. It's simpler than TCP but doesn't guarantee delivery.
+Source: The IP address of the sender.
 
-IP (Internet Protocol): The fundamental protocol for routing packets across networks. It uses IP addresses (like 192.168.100.16 and 8.8.8.8) to get data from source to destination.
+Destination: The IP address of the receiver.
 
-Ethernet: The dominant protocol for local area networks (LANs). It handles the physical transmission of data frames between devices on the same network segment.
+Protocol: The application-layer protocol (e.g., DNS, TCP, HTTP).
 
-Other Key Protocols:
+Info: A brief description of the packet's purpose.
 
-ARP (Address Resolution Protocol): Used to map an IP address to a physical MAC address on a local network. For example, my computer would use ARP to find the MAC address of the router before sending the DNS packet to it. This happens before the DNS query in the capture.
+Packet Details Pane (Bottom left)
+Shows the selected packet broken down by protocol layers (like peeling an onion).
 
-TCP (Transmission Control Protocol): A connection-oriented protocol that ensures reliable, ordered delivery of data. It's used by protocols that require high reliability, like HTTP/S, SSH, and FTP. DNS can use TCP for large responses or zone transfers.
+Frame: The raw data as captured from the network.
 
-HTTP/HTTPS (Hypertext Transfer Protocol/Secure): The protocols used for loading websites. HTTPS is the encrypted version. A DNS query is the first step to accessing a website; once the IP is known, my browser would then establish a TCP connection and send an HTTP/HTTPS request to that IP. This happens after the DNS response.
+Ethernet II (Data Link Layer): Contains the source and destination MAC addresses for the local network segment.
 
-Analysis of My Capture
+Internet Protocol Version 4 (Network Layer): Contains the source and destination IP addresses for routing across networks.
 
-After opening a capture on wireshark, I got an influx of network traffic , iformation which did not make sense at firs. Then I opened whatsapp in my browser, came back and stoped the capture. I filtered the traffic using dns (as seen on my screenshot or wireshark capture file), the i could see the request from my ip to google's 8.8.8.8, the a couple of responses later on. This was an exciting step for to start making sense out of what was going one.
+Transmission Control Protocol (Transport Layer): Manages the connection between applications using port numbers.
 
-Conclusion
-This session was a practical application of using Wireshark for monitoring network data, and get security related information.
+Application Protocol (e.g., DNS): The actual content of the message.
+
+Packet Bytes Pane (Bottom right)
+The raw data of the packet in hexadecimal and ASCII. Used for advanced analysis.
+
+3. Key Network Protocols Observed
+DNS (Domain Name System) - The Internet's Phonebook
+Purpose: Translates human-readable domain names (e.g., web.whatsapp.com) into machine-readable IP addresses (e.g., 157.240.1.53).
+
+How it works: Your computer sends a DNS Query to a DNS server (like 8.8.8.8). The server replies with a DNS Response containing the IP address.
+
+Wireshark Filter: dns
+
+TCP (Transmission Control Protocol) - The Reliable Messenger
+Purpose: Establishes a reliable, connection-oriented session between two applications. Ensures data arrives completely and in order.
+
+The Three-Way Handshake: The process to establish a TCP connection:
+
+SYN (Synchronize): The client sends a packet with the SYN flag set to initiate a connection.
+
+SYN-ACK (Synchronize-Acknowledge): The server acknowledges the request (ACK) and agrees to synchronize (SYN).
+
+ACK (Acknowledge): The client acknowledges the server's response. The connection is now ESTABLISHED.
+
+Wireshark Filter: tcp
+
+Google Public DNS (8.8.8.8)
+A free, global DNS resolution service provided by Google. Many systems use it as a fast and reliable alternative to an ISP's default DNS servers.
+
+4. Hands-On Lab: Analyzing a DNS Query
+Scenario:
+I captured traffic while my computer needed to find the IP address for WhatsApp's web service.
+
+Observation in Wireshark:
+After applying the dns filter, I observed a clear conversation:
+
+DNS Query:
+
+Source: My Local IP
+
+Destination: 8.8.8.8
+
+Protocol: DNS
+
+Info: Standard query A web.whatsapp.com
+
+Translation: "Hey Google DNS, what is the IP address for 'web.whatsapp.com'?"
+
+DNS Response:
+
+Source: 8.8.8.8
+
+Destination: My Local IP
+
+Protocol: DNS
+
+Info: Standard query response A 157.240.1.53
+
+Translation: "The IP address for 'web.whatsapp.com' is 157.240.1.53."
+
+Key Takeaway from the Lab:
+This simple capture demonstrates the critical first step of almost all internet activity: the DNS lookup. Before any secure connection (HTTPS) can be established, the destination must first be found via DNS.
+
+5. Essential Wireshark Tips
+Use Filters: They are crucial for reducing noise. Examples:
+
+ip.addr == 192.168.1.105 (Show all traffic to/from my IP)
+
+dns (Show only DNS packets)
+
+tcp.port == 80 (Show traffic using HTTP port 80)
